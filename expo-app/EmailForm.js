@@ -49,6 +49,7 @@ export default function EmailForm() {
           value={recipients}
           keyboardType="email-address"
           autoCapitalize="none"
+          onChangeText={setRecipients}
         />
 
         <Text>Subject: </Text>
@@ -57,20 +58,20 @@ export default function EmailForm() {
           value={subject}
           placeholder='Subject: '
           autoCapitalize='none'
+          onChangeText={setSubject}
         />
 
         <Text>Body: </Text>
         <TextInput
-          style={styles.input}
+          style={styles.body}
           value={body}
           placeholder='Body ...'
           multiline
           textAlignVertical="top"
+          onChangeText={setBody}
         />
 
-        <Button title="Send Email" onPress={() => sendEmail()} disabled={!!"TODO"} />
-
-
+        <Button title="Send Email" onPress={() => sendEmail().catch(console.warn)} disabled={!recipients || recipients.length < 5} />
       </ScrollView>
     </SafeAreaView>
   </>
