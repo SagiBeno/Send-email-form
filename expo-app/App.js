@@ -1,11 +1,15 @@
+/** npx create-expo-app expo-app --template blank@49 */
+/** TODO install cors */
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import EmailForm from './EmailForm';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>"Ki mennyit keres"</Text>
-      <StatusBar style="auto" />
+      <EmailForm />
+      <StatusBar style="auto" /> 
     </View>
   );
 }
