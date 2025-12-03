@@ -110,7 +110,10 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 15,
     borderRadius: 8,
-    fontSize: 16
+    fontSize: 16,
+    minWidth: 200,
+    width: 250,
+    maxWidth: 300
   },
   body: {
     borderWidth: 1,
