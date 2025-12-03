@@ -5,7 +5,28 @@ export default function EmailForm() {
   const [recipients, setRecipients] = useState('');
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
-  const isMailAvailable = "TODO add to state"
+  const [isMailAvailable, setIsMailAvailable] = useState(false);
+
+  const isValidEmail = (email) => {
+    if (!email) return false;
+    if (email.includes(' ') || !email.includes('@')) return false;
+
+    const emailparts = email.split('@');
+
+    if (emailparts.length != 2 || emailparts[1].split('.')[1]?.length < 2) return false;
+    
+    if (!emailparts[0] || !emailparts[1] || !emailparts[1].includes('.')) return false;
+
+    const dotIdx = emailparts[1].lastIndexOf('.');
+    if (dotIdx === 0 || dotIdx === (emailparts[1].length - 1)) return false;
+
+    return true;
+  }
+
+  const handleEmailInput = (email) => {
+    setRecipients(email);
+    setIsMailAvailable(isValidEmail(email));
+  }
 
   const sendEmail = async () => {
     console.log('sendEmail called - recipients:', recipients);
@@ -49,7 +70,7 @@ export default function EmailForm() {
           value={recipients}
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={setRecipients}
+          onChangeText={(email) => handleEmailInput(email)}
         />
 
         <Text>Subject: </Text>
@@ -57,7 +78,7 @@ export default function EmailForm() {
           style={styles.input}
           value={subject}
           placeholder='Subject: '
-          autoCapitalize='none'
+          autoCapitalize='sentences'
           onChangeText={setSubject}
         />
 
@@ -68,10 +89,11 @@ export default function EmailForm() {
           placeholder='Body ...'
           multiline
           textAlignVertical="top"
+          autoCapitalize='sentences'
           onChangeText={setBody}
         />
 
-        <Button title="Send Email" onPress={() => sendEmail().catch(console.warn)} disabled={!recipients || recipients.length < 5} />
+        <Button title="Send Email" onPress={() => sendEmail().catch(console.warn)} disabled={!isMailAvailable || !subject || !body} />
       </ScrollView>
     </SafeAreaView>
   </>
